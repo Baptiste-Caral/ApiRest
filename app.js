@@ -1,7 +1,10 @@
 const {success, error, checkAndChange} = require('./assets/functions'); // success() & error() created at 'functions.js'
-const express = require('express'); // framework Back-end JS
+const express = require('express') // framework Back-end JS
+// const expressOasGenerator = require('express-oas-generator') // Swagger documentation
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./assets/swagger.json')
 const mysql = require('promise-mysql')
-const morgan = require('morgan')('dev'); // debug tool
+const morgan = require('morgan')('dev') // debug tool
 const config = require('./assets/config')
 
 // CONNECT TO DATABASE
@@ -16,12 +19,14 @@ mysql.createConnection({
     
     console.log('Connected');
         
-        const app = express();
+        const app = express()
+        // expressOasGenerator.init(app, {})
         let MembersRouter = express.Router() // /api/v1/members
         let Members = require('./assets/classes/members-class')(db, config)
         app.use(morgan) // debug tool => requests displaying in console (dev only)
         app.use(express.json()) // for parsing application/json https://expressjs.com/fr/4x/api.html#req.body:
         app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+        app.use(config.rootAPI+'api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument)) // documentation
 
         MembersRouter.route('/:id')
 
