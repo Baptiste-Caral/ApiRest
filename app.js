@@ -1,7 +1,6 @@
-const {success, error, checkAndChange} = require('./assets/functions'); // success() & error() created at 'functions.js'
+const {checkAndChange} = require('./assets/functions'); // success() & error() created at 'functions.js'
 const express = require('express') // framework Back-end JS
-// const expressOasGenerator = require('express-oas-generator') // Swagger documentation
-const swaggerUi = require('swagger-ui-express')
+const swaggerUi = require('swagger-ui-express') // http://localhost:8080/api/v1/api-docs/
 const swaggerDocument = require('./assets/swagger.json')
 const mysql = require('promise-mysql')
 const morgan = require('morgan')('dev') // debug tool
